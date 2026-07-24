@@ -14,7 +14,7 @@
       --soft-fill: #F3EFE6;
       --ink: #2C2C2C;
       --sage: #3B5342;
-      --terracotta: #C16A53;
+      --terracotta: #C16A53;a
       --muted: #6B6B6B;
       --border: #E8E4DC;
       --max-width: 42rem;
@@ -218,24 +218,26 @@
     </header>
 
     <p class="intro">
-      PantryTalk is built on a <strong>local-first</strong> architecture. Your grocery lists,
-      pantry inventory, expiry dates, and shopping history are stored on your device using an
-      encrypted local database (Drift/SQLite). You can use the app fully offline as a guest
-      without linking a cloud account.
+      PantryTalk is built on a <strong>local-first</strong> architecture. Your pantry inventory,
+      expiry dates, and shopping history are stored on your device using an encrypted local
+      database (Drift/SQLite). Grocery lists also live on your device by default. You can use
+      the app fully offline as a guest without linking a cloud account.
     </p>
 
     <div class="highlight">
       <p>
-        <strong>In short:</strong> We do not operate a central server that stores your pantry
-        or grocery lists. Optional cloud features (voice dictation and receipt scanning) send
-        only the data needed for that request to our secure API, which forwards it to an AI
-        provider for parsing. Receipt photos and voice audio are processed in memory and are
+        <strong>In short:</strong> Pantry and grocery data stay on your phone unless you
+        <strong>choose</strong> optional cloud features. If you share a grocery list with
+        someone, that list’s items are stored in our cloud database so both of you can edit
+        in real time — we do <strong>not</strong> use that data for advertising. Optional
+        cloud AI (voice dictation and receipt scanning) sends only what is needed for each
+        request; audio and receipt files are processed in memory and are
         <strong>not stored</strong> on our servers after the request completes.
       </p>
     </div>
 
     <h1>Privacy Policy</h1>
-    <p class="effective">Effective date: July 2026 · Last updated: July 2026</p>
+    <p class="effective">Effective date: July 2026 · Last updated: 24 July 2026</p>
 
     <nav class="toc" aria-label="Table of contents">
       <p>Contents</p>
@@ -244,6 +246,9 @@
         <li><a href="#data-we-handle">Data we handle</a></li>
         <li><a href="#local-storage">Local storage on your device</a></li>
         <li><a href="#cloud-features">Optional cloud features</a></li>
+        <li><a href="#shared-lists">Shared grocery lists (your choice)</a></li>
+        <li><a href="#advertising">Advertising &amp; data use</a></li>
+        <li><a href="#your-responsibility">Your responsibilities</a></li>
         <li><a href="#processors">Third-party processors</a></li>
         <li><a href="#legal-bases">Legal bases (GDPR)</a></li>
         <li><a href="#retention">Retention</a></li>
@@ -291,7 +296,12 @@
         <tr>
           <td>Grocery &amp; pantry data</td>
           <td>Item names, quantities, categories, expiry dates, purchase dates</td>
-          <td>On your device</td>
+          <td>On your device (pantry always local; grocery lists local unless you share — see §5)</td>
+        </tr>
+        <tr>
+          <td>Shared grocery list data</td>
+          <td>List name, items, check-off state, invite code, owner/member role — only when you choose “Share with someone” or join via invite</td>
+          <td>Supabase Postgres (processor)</td>
         </tr>
         <tr>
           <td>Receipt metadata</td>
@@ -332,16 +342,17 @@
       on your phone or tablet inside the app’s secure sandbox:
     </p>
     <ul>
-      <li>Grocery list and pantry inventory</li>
+      <li>Grocery lists (unless you explicitly share a list to the cloud — see §5)</li>
+      <li>Pantry inventory (always local — not uploaded for sync or sharing)</li>
       <li>Item quantities, units, categories, and expiry information</li>
       <li>Your chosen display name and kitchen language</li>
       <li>Notification preferences and locally scheduled expiry reminders</li>
       <li>A diagnostic log file used for troubleshooting (not uploaded automatically)</li>
     </ul>
     <p>
-      We do <strong>not</strong> upload your full inventory or grocery lists to PantryTalk
-      servers. Uninstalling the app or using “delete local data” (when available in Settings)
-      removes this information from your device.
+      We do <strong>not</strong> upload your pantry inventory to PantryTalk servers.
+      Private grocery lists remain on your device only. Uninstalling the app or using
+      “delete local data” (when available in Settings) removes this information from your device.
     </p>
 
     <h2 id="cloud-features">4. Optional cloud features</h2>
@@ -375,9 +386,15 @@
 
     <h3>Usage limits</h3>
     <p>
-      To operate free-tier AI quotas, we store a pseudonymous device identifier and your
-      signed-in user ID together with weekly parse counts. This does not include the content
-      of your lists or receipts.
+      Cloud AI features (voice dictation and receipt scanning) are subject to usage limits
+      (for example, a weekly parse quota). To enforce fair use, we store a pseudonymous
+      device identifier and your signed-in user ID together with parse counts. This does
+      <strong>not</strong> include the content of your lists or receipts.
+    </p>
+    <p>
+      Limits may be adjusted at any time at the developer’s discretion (for example, to
+      manage cost, abuse, or service quality). We will not use your grocery or pantry
+      content to set personalised limits or for advertising.
     </p>
 
     <h3>Ingredient matching contributions</h3>
@@ -387,10 +404,76 @@
       <strong>off by default</strong> and can be disabled at any time.
     </p>
 
-    <h2 id="processors">5. Third-party processors</h2>
-    <p>We use trusted providers to deliver authentication and AI parsing:</p>
+    <h2 id="shared-lists">5. Shared grocery lists (your choice)</h2>
+    <p>
+      Live grocery list sharing is <strong>entirely optional</strong>. Nothing is uploaded
+      until you tap <strong>Share with someone</strong> on a list (or join someone else’s
+      list with an invite code). You must be signed in with Google to use this feature.
+    </p>
+    <p>When you choose to share or join:</p>
     <ul>
-      <li><strong>Supabase</strong> — Google Sign-In authentication (email, user ID)</li>
+      <li>
+        The shared list’s name, items (names, quantities, units, categories, bought/checked
+        state), and membership (who is owner or member) are stored in Supabase Postgres so
+        participants can sync edits in real time.
+      </li>
+      <li>
+        Your <strong>pantry inventory stays on your device</strong> and is not shared through
+        this feature. Only the list owner can move bought items from a shared list into their
+        local pantry.
+      </li>
+      <li>
+        Invite codes and <code>pantrytalk://join/…</code> links let others join; the list
+        owner can stop sharing, which archives the cloud list and invalidates the invite.
+      </li>
+      <li>
+        If you never share and never join, your grocery lists behave as before — local only.
+      </li>
+    </ul>
+    <p>
+      Shared list data is used solely to provide the sharing feature (sync, invites,
+      membership). It is <strong>not</strong> used for advertising, sold to data brokers,
+      or used to build advertising profiles.
+    </p>
+
+    <h2 id="advertising">6. Advertising &amp; data use</h2>
+    <p>
+      PantryTalk does <strong>not</strong> show third-party advertisements in the app and
+      does <strong>not</strong> sell your personal data. Grocery lists you choose to store
+      in the cloud for sharing, your pantry data, voice input, receipt images, and account
+      information are <strong>not</strong> used for targeted advertising or shared with
+      advertising networks.
+    </p>
+    <p>
+      We use third-party services only as described in this policy (authentication, AI
+      parsing, hosting, quotas) to operate the app — not to monetise your content through ads.
+    </p>
+
+    <h2 id="your-responsibility">7. Your responsibilities</h2>
+    <p>
+      When you enable cloud AI features, you are responsible for how you use them. Before the
+      first voice or receipt parse, the app asks you to confirm that you understand and accept
+      the following:
+    </p>
+    <ul>
+      <li>You <strong>review every AI result</strong> before saving items — nothing is added automatically without your confirmation in the review step.</li>
+      <li>AI may misread product names, quantities, prices, or categories — <strong>you decide</strong> what to keep in your pantry or grocery list.</li>
+      <li>You only submit receipts and voice input you have the <strong>right to process</strong>, and you accept that receipts may contain personal or payment-related information.</li>
+      <li>Expiry notifications are <strong>reminders only</strong> — not food-safety or medical advice.</li>
+      <li>
+        If you share a grocery list, you choose who receives the invite code; shared list
+        content is visible to everyone who joins that list.
+      </li>
+    </ul>
+    <p>
+      If we materially change cloud AI responsibilities, we will update this policy and may
+      ask you to accept the updated terms in the app before using those features again.
+    </p>
+
+    <h2 id="processors">8. Third-party processors</h2>
+    <p>We use trusted providers to deliver authentication, sharing, and AI parsing:</p>
+    <ul>
+      <li><strong>Supabase</strong> — Google Sign-In authentication (email, user ID); optional shared grocery list storage and sync</li>
       <li><strong>Google</strong> — Sign-In OAuth; Gemini AI for voice and receipt parsing</li>
       <li><strong>Cloudflare</strong> — API hosting, edge security, and quota storage (KV)</li>
     </ul>
@@ -400,12 +483,13 @@
       advertisers or data brokers.
     </p>
 
-    <h2 id="legal-bases">6. Legal bases for processing (GDPR)</h2>
+    <h2 id="legal-bases">9. Legal bases for processing (GDPR)</h2>
     <p>If you are in the European Economic Area (EEA), UK, or Switzerland, we rely on:</p>
     <ul>
       <li>
         <strong>Performance of a contract</strong> — to provide AI parsing when you request it,
-        manage your account sign-in, and enforce fair-use quotas.
+        manage your account sign-in, enforce fair-use quotas, and sync shared grocery lists
+        when you choose to share or join.
       </li>
       <li>
         <strong>Consent</strong> — for optional ingredient-mapping contributions and, where
@@ -422,16 +506,17 @@
       consent for third-party AI.
     </p>
 
-    <h2 id="retention">7. Retention</h2>
+    <h2 id="retention">10. Retention</h2>
     <ul>
       <li><strong>On-device data:</strong> kept until you delete items, clear app data, or uninstall.</li>
+      <li><strong>Shared grocery lists (cloud):</strong> kept while the list is active and you remain a member; archived when the owner stops sharing; deleted on account deletion request where feasible.</li>
       <li><strong>Voice audio &amp; receipt files:</strong> not retained after the parse request completes.</li>
       <li><strong>Quota / usage counters:</strong> retained per weekly billing period, then reset or aggregated.</li>
       <li><strong>Authentication records:</strong> retained while your account is active; deleted on account deletion request.</li>
       <li><strong>Optional mapping votes:</strong> retained only as long as needed for the dictionary feature.</li>
     </ul>
 
-    <h2 id="transfers">8. International transfers</h2>
+    <h2 id="transfers">11. International transfers</h2>
     <p>
       Our processors may process data in the United States and other countries outside your
       home jurisdiction. Where required, we rely on appropriate safeguards such as the EU
@@ -439,7 +524,7 @@
       more information about transfers by contacting us.
     </p>
 
-    <h2 id="rights">9. Your rights under the GDPR</h2>
+    <h2 id="rights">12. Your rights under the GDPR</h2>
     <p>You have the right to:</p>
     <ul>
       <li><strong>Access</strong> — obtain confirmation and a copy of personal data we hold about you.</li>
@@ -457,28 +542,29 @@
       your identity before fulfilling a request.
     </p>
 
-    <h2 id="children">10. Children</h2>
+    <h2 id="children">13. Children</h2>
     <p>
       PantryTalk is not directed at children under 16 in the EEA/UK (or under 13 elsewhere)
       without parental consent. We do not knowingly collect personal data from children. If you
       believe a child has provided us data, contact us and we will delete it promptly.
     </p>
 
-    <h2 id="security">11. Security</h2>
+    <h2 id="security">14. Security</h2>
     <p>
       We use HTTPS for all API communication, authenticated access for cloud features, and
       on-device sandboxing for local data. No method of transmission or storage is 100% secure;
       please keep your device and Google account credentials protected.
     </p>
 
-    <h2 id="changes">12. Changes to this policy</h2>
+    <h2 id="changes">15. Changes to this policy</h2>
     <p>
       We may update this Privacy Policy when features or legal requirements change. We will
       post the new version on this page and update the “Last updated” date. Material changes
-      may also be highlighted in the app where appropriate.
+      to cloud AI processing may require you to accept updated responsibilities in the app
+      before using voice or receipt features again.
     </p>
 
-    <h2 id="contact">13. Contact</h2>
+    <h2 id="contact">16. Contact</h2>
     <p>
       Questions about privacy or GDPR requests:<br>
       <a href="mailto:pantrytalk.app@gmail.com">pantrytalk.app@gmail.com</a>
