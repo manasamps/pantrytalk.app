@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join grocery list — PantryTalk</title>
+  <meta name="description" content="Open a PantryTalk shared grocery list invite.">
+  <style>
+    :root {
+      --cream: #FDFBF7;
+      --sage: #3B5342;
+      --muted: #6B6B6B;
+      --border: #E8E4DC;
+    }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--cream);
+      color: #2C2C2C;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      max-width: 24rem;
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.35rem;
+      margin: 0 0 8px;
+      color: var(--sage);
+    }
+    p { margin: 0 0 16px; line-height: 1.55; color: var(--muted); }
+    .code {
+      font-family: ui-monospace, monospace;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      margin: 12px 0 20px;
+      color: #2C2C2C;
+    }
+    a.btn {
+      display: inline-block;
+      background: var(--sage);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-family: system-ui, sans-serif;
+      font-weight: 600;
+    }
+    .hint {
+      margin-top: 16px;
+      font-size: 0.9rem;
+    }
+    a { color: var(--sage); }
+  </style>
+</head>
+<body>
+  <div class="card" id="join-card" hidden>
+    <h1>Join shared grocery list</h1>
+    <p>Open this invite in PantryTalk. Sign in with Google if prompted.</p>
+    <div class="code" id="invite-code"></div>
+    <a class="btn" id="open-app" href="#">Open PantryTalk</a>
+    <p class="hint">No app yet? Install PantryTalk from Google Play, then tap Open again.</p>
+  </div>
+  <div class="card" id="fallback-card">
+    <h1>Invalid invite link</h1>
+    <p>Ask the list owner for a new invite, or enter the code in PantryTalk under <strong>Grocery → Join</strong>.</p>
+    <p><a href="https://pantrytalk.de">pantrytalk.de</a></p>
+  </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = (params.get('code') || '').trim().toUpperCase();
+
+      if (!/^[A-Z0-9]{4,12}$/.test(code)) {
+        return;
+      }
+
+      var appUrl = 'pantrytalk://join/' + encodeURIComponent(code);
+
+      document.getElementById('fallback-card').hidden = true;
+      document.getElementById('join-card').hidden = false;
+      document.getElementById('invite-code').textContent = code;
+
+      var openLink = document.getElementById('open-app');
+      openLink.href = appUrl;
+
+      openLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.location.href = appUrl;
+      });
+
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        window.setTimeout(function () {
+          window.location.href = appUrl;
+        }, 300);
+      }
+    })();
+  </script>
+</body>
+</html>
