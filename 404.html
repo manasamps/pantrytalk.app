@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PantryTalk</title>
+  <script>
+    (function () {
+      var joinMatch = window.location.pathname.match(/^\/join\/([A-Za-z0-9]{4,12})\/?$/);
+      if (joinMatch) {
+        var code = joinMatch[1].toUpperCase();
+        window.location.replace('/join.html?code=' + encodeURIComponent(code));
+        return;
+      }
+    })();
+  </script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background: #FDFBF7;
+      color: #2C2C2C;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      max-width: 24rem;
+      text-align: center;
+      background: #fff;
+      border: 1px solid #E8E4DC;
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    h1 { font-size: 1.35rem; color: #3B5342; margin: 0 0 8px; }
+    p { color: #6B6B6B; line-height: 1.55; }
+    a { color: #3B5342; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Page not found</h1>
+    <p>This link may be outdated. Visit <a href="https://pantrytalk.de/privacy.html">pantrytalk.de</a>.</p>
+  </div>
+</body>
+</html>
