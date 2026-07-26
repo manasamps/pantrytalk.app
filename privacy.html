@@ -238,7 +238,7 @@
     </div>
 
     <h1>Privacy Policy</h1>
-    <p class="effective">Effective date: July 2026 · Last updated: 25 July 2026</p>
+    <p class="effective">Effective date: July 2026 · Last updated: 26 July 2026</p>
 
     <nav class="toc" aria-label="Table of contents">
       <p>Contents</p>
@@ -388,8 +388,10 @@
 
     <h3>Usage limits</h3>
     <p>
-      Cloud AI features (voice dictation and receipt scanning) are subject to usage limits
-      (for example, a weekly parse quota). To enforce fair use, we store a pseudonymous
+      Cloud AI features (voice dictation and receipt scanning) are subject to
+      <strong>fair-use</strong> usage limits (for example, a weekly parse quota). These
+      limits are <strong>not</strong> a paid subscription or billing cycle — PantryTalk
+      does not charge for AI parses. To enforce fair use, we store a pseudonymous
       device identifier and your signed-in user ID together with parse counts. This does
       <strong>not</strong> include the content of your lists or receipts.
     </p>
@@ -411,7 +413,7 @@
       Live grocery list sharing is <strong>entirely optional</strong>. Nothing is uploaded
       until you tap <strong>Share with someone</strong> on a list (or join someone else’s
       list with an invite code). Each shared list supports <strong>two people</strong>,
-      and you may participate in up to <strong>two active shared lists</strong> at a time.
+      and you may participate in up to <strong>five active shared lists</strong> at a time.
       You must be signed in with Google to use this feature. PantryTalk is <strong>not</strong> a public social network — shared lists are
       <strong>invite-only</strong>, not discoverable in the app, and visible only to people
       who receive a valid invite code or link from you or the list owner.
@@ -429,7 +431,7 @@
         local pantry.
       </li>
       <li>
-        Invite codes and <code>pantrytalk://join/…</code> links let others join; the list
+        Invite codes and <code>https://pantrytalk.de/join.html?code=…</code> links let others join; the list
         owner can stop sharing, which archives the cloud list and invalidates the invite.
       </li>
       <li>
@@ -558,7 +560,7 @@
       <li><strong>On-device data:</strong> kept until you delete items, clear app data, or uninstall.</li>
       <li><strong>Shared grocery lists (cloud):</strong> kept while the list is active and you remain a member; archived when the owner stops sharing; deleted on account deletion request where feasible.</li>
       <li><strong>Voice audio &amp; receipt files:</strong> not retained after the parse request completes.</li>
-      <li><strong>Quota / usage counters:</strong> retained per weekly billing period, then reset or aggregated.</li>
+      <li><strong>Quota / usage counters:</strong> retained per weekly usage period (currently reset each Monday, UTC), then reset or aggregated. This is a fair-use limit while the app remains free — not a billing cycle.</li>
       <li><strong>Authentication records:</strong> retained while your account is active; deleted on account deletion request.</li>
       <li><strong>Optional mapping votes:</strong> retained only as long as needed for the dictionary feature.</li>
     </ul>
